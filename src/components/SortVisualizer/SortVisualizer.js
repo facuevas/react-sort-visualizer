@@ -3,7 +3,9 @@ import { Bar } from "react-chartjs-2";
 import { Button, Container } from "reactstrap";
 import BottomInput from "../Layout/BottomInput.js";
 import { generateNewArray } from "../../utility/utility";
-import { bubbleSort, insertionSort } from "../../utility/algorithms/sorting.js";
+import { bubbleSort } from "../../utility/algorithms/bubbleSort.js";
+import { insertionSort } from "../../utility/algorithms/insertionSort.js";
+import { selectionSort } from "../../utility/algorithms/selectionSort.js";
 
 const SortVisualizer = () => {
   // states for our array to sort and the length of the array to sort
@@ -61,6 +63,14 @@ const SortVisualizer = () => {
       >
         INSERTION SORT
       </Button>
+      <Button
+        color="success"
+        outline
+        style={{ marginTop: "1rem" }}
+        onClick={() => selectionSort(chartReference)}
+      >
+        SELECTION SORT
+      </Button>
     </Container>
   );
 };
@@ -94,7 +104,7 @@ const options = {
   // animation controller for chart.js
   // duration is how long each animation plays out in ms
   animation: {
-    duration: 1000,
+    duration: 80,
     xAxes: true,
     yAxes: true,
   },
