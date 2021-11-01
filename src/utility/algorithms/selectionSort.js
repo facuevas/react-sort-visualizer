@@ -35,7 +35,7 @@ export const selectionSort = async (chartReference) => {
         colors[j] = originalColor;
         chart.data.datasets[0].backgroundColor = colors;
         chart.update();
-        sleep(100);
+        await sleep(100);
       }
     }
     // swap our min value with where we currently are

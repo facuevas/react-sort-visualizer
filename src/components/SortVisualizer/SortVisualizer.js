@@ -6,6 +6,7 @@ import { generateNewArray } from "../../utility/utility";
 import { bubbleSort } from "../../utility/algorithms/bubbleSort.js";
 import { insertionSort } from "../../utility/algorithms/insertionSort.js";
 import { selectionSort } from "../../utility/algorithms/selectionSort.js";
+import { mergeSort } from "../../utility/algorithms/mergeSort.js";
 
 const SortVisualizer = () => {
   // states for our array to sort and the length of the array to sort
@@ -70,6 +71,14 @@ const SortVisualizer = () => {
         onClick={() => selectionSort(chartReference)}
       >
         SELECTION SORT
+      </Button>
+      <Button
+        color="success"
+        outline
+        style={{ marginTop: "1rem" }}
+        onClick={() => mergeSort(chartReference)}
+      >
+        MERGE SORT
       </Button>
     </Container>
   );
