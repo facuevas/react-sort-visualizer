@@ -1,11 +1,9 @@
-import { Button, Container, Row, Col } from "reactstrap";
-import VerticalBar from "./components/Chartjs/VerticalBar";
-import BubbleSort from "./components/SortVisualizer/BubbleSort";
+import SortVisualizer from "./components/SortVisualizer/SortVisualizer";
 
 const App = () => {
   return (
     <>
-      <BubbleSort />
+      <SortVisualizer />
     </>
   );
 };
