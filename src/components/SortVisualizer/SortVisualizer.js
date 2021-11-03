@@ -4,7 +4,7 @@ import { Button, Container } from "reactstrap";
 import BottomInput from "../Layout/BottomInput.js";
 import { generateNewArray } from "../../utility/utility";
 import { doBubbleSort, testBubbleSort } from "../../utility/algorithms/bubbleSort.js";
-import { doInsertionSort } from "../../utility/algorithms/insertionSort.js";
+import { doInsertionSort, testInsertionSort } from "../../utility/algorithms/insertionSort.js";
 import { selectionSort } from "../../utility/algorithms/selectionSort.js";
 import { mergeSort } from "../../utility/algorithms/mergeSort.js";
 
@@ -13,6 +13,7 @@ const SortVisualizer = () => {
   const [length, setLength] = useState(100);
   const [array, setArray] = useState(generateNewArray(length));
   const [sortedArray, setSortedArray] = useState(array.slice().sort((a, b) => a - b));
+  const [isRunning, setIsRunning] = useState(false);
 
   // get the reference for our chart
   const chartReference = useRef(null);
@@ -46,7 +47,7 @@ const SortVisualizer = () => {
 
   return (
     <Container>
-      <Bar data={data} options={options} ref={chartReference} redraw />
+      <Bar data={data} options={options} ref={chartReference} />
       <BottomInput
         handleCreateNewArray={handleCreateNewArray}
         handleCreateNewArrayWithLength={handleCreateNewArrayWithLength}
@@ -63,7 +64,7 @@ const SortVisualizer = () => {
         color="success"
         outline
         style={{ marginTop: "1rem" }}
-        onClick={() => doInsertionSort(chartReference)}
+        onClick={() => testInsertionSort(chartReference, sortedArray)}
       >
         INSERTION SORT
       </Button>
@@ -82,6 +83,17 @@ const SortVisualizer = () => {
         onClick={() => mergeSort(chartReference)}
       >
         MERGE SORT
+      </Button>
+      <Button
+        color="danger"
+        outline
+        style={{ marginTop: "1rem" }}
+        onClick={() => {
+          chartReference.current.stop();
+          chartReference.current.destroy();
+        }}
+      >
+        STOP
       </Button>
     </Container>
   );

@@ -30,24 +30,22 @@ const bubbleSort = (chartReference) => {
   const data = chart.data.datasets[0].data;
   const colors = chart.data.datasets[0].backgroundColor;
   const originalColor = "rgba(255, 99, 132, 0.2)";
-  const timeoutSpeed = 50;
+  const timeoutSpeed = 100;
   let timeout = 0;
   console.log(colors);
 
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < data.length - i - 1; j++) {
       colors[j] = "blue";
-      timeout += timeoutSpeed;
+      colors[j + 1] = "yellow";
+      timeout += timeoutSpeed - 25;
       updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
 
       if (data[j] > data[j + 1]) {
-        // color the value we are going to swap to yellow
-        colors[j + 1] = "yellow";
-
         swap(data, j, j + 1);
-
-        timeout += timeoutSpeed;
-        updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
+        swap(colors, j, j + 1);
+        // timeout += timeoutSpeed;
+        // updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
       }
 
       colors[j] = originalColor;

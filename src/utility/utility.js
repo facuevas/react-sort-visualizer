@@ -27,11 +27,12 @@ export const updateChartWithColors = (data, colors, timeout, chart) => {
 };
 
 export const updateChart = async (chart, data, sorted, timeout) => {
-  const newColors = await updateChartFrameColors(chart, data, sorted);
+  //const newColors = await updateChartFrameColors(chart, data, sorted);
   setTimeout(() => {
+    console.log(chart.data.datasets);
     chart.data.datasets[0].data = data;
-    chart.data.datasets[0].backgroundColor = newColors;
-    chart.update();
+    //chart.data.datasets[0].backgroundColor = newColors;
+    chart.update(0);
   }, timeout);
 };
 
@@ -41,9 +42,11 @@ const updateChartFrameColors = async (chart, data, sorted) => {
   for (let i = 0; i < data.length; i++) {
     if (sorted[i] === data[i]) {
       colors[i] = "green";
+      continue;
     }
     if (sorted[i] !== data[i]) {
-      colors[i] = "rgba(255, 99, 132, 0.2)";
+      colors[i] = "yellow";
+      continue;
     }
     colors[i] = "blue";
   }
