@@ -1,45 +1,63 @@
-import { sleep } from "../utility";
+import { swap, updateChart, updateChartWithColors, arrayEquals } from "../utility";
 
-export const bubbleSort = async (chartReference) => {
+export const testBubbleSort = async (chartReference, sortedArray) => {
+  let chart = chartReference.current;
+  const data = chart.data.datasets[0].data;
+  let timeout = 0;
+  const timeoutSpeed = 100;
+
+  // check if array is already sorted
+  if (arrayEquals(data, sortedArray)) return;
+
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data.length - i - 1; j++) {
+      if (data[j] > data[j + 1]) {
+        swap(data, j, j + 1);
+        timeout += timeoutSpeed;
+        await updateChart(chart, data.slice(0), sortedArray.slice(0), timeout);
+      }
+    }
+  }
+};
+
+export const doBubbleSort = (chartReference) => {
+  setTimeout(() => bubbleSort(chartReference), 100);
+};
+
+const bubbleSort = (chartReference) => {
   let chart = chartReference.current;
 
-  // reference our (currently) unsorted  array
   const data = chart.data.datasets[0].data;
-  // reference our original colors
   const colors = chart.data.datasets[0].backgroundColor;
-  //   // original color of the array bar
-  //   const originalColor = "rgba(255, 99, 132, 0.2)";
-  // meta for our data set
+  const originalColor = "rgba(255, 99, 132, 0.2)";
+  const timeoutSpeed = 50;
+  let timeout = 0;
   console.log(colors);
 
-  for (let i = 0; i < data.length - 1; i++) {
-    let checkSwap = false;
-    for (let j = 0; j < data.length - 1; j++) {
-      // color our current comparison
-      // colors[j] = "blue";
-      // chart.data.datasets[0].backgroundColor = colors;
-
-      // this updates the current comparison color
-      chart.update();
-      await sleep(100);
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data.length - i - 1; j++) {
+      colors[j] = "blue";
+      timeout += timeoutSpeed;
+      updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
 
       if (data[j] > data[j + 1]) {
-        // swap values
-        let temp = data[j];
-        data[j] = data[j + 1];
-        data[j + 1] = temp;
+        // color the value we are going to swap to yellow
+        colors[j + 1] = "yellow";
 
-        checkSwap = true;
+        swap(data, j, j + 1);
+
+        timeout += timeoutSpeed;
+        updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
       }
-      // overwrite new colors
-      //   colors[j] = originalColor;
-      //   chart.data.datasets[0].backgroundColor = colors;
+
+      colors[j] = originalColor;
+      timeout += timeoutSpeed;
+      updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
     }
-    if (checkSwap === false) {
-      break;
-    }
-    // colors[data.length - i - 1] = "#7cc746"; // color last element green
-    // chart.data.datasets[0].backgroundColor = colors;
-    chart.update();
+    colors[data.length - i - 1] = "green"; // color last element green
+    //timeout += timeoutSpeed;
+    updateChartWithColors(data.slice(), colors.slice(), timeout, chart);
   }
+
+  console.log(data);
 };

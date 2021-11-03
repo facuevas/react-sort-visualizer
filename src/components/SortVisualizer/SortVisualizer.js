@@ -3,8 +3,8 @@ import { Bar } from "react-chartjs-2";
 import { Button, Container } from "reactstrap";
 import BottomInput from "../Layout/BottomInput.js";
 import { generateNewArray } from "../../utility/utility";
-import { bubbleSort } from "../../utility/algorithms/bubbleSort.js";
-import { insertionSort } from "../../utility/algorithms/insertionSort.js";
+import { doBubbleSort, testBubbleSort } from "../../utility/algorithms/bubbleSort.js";
+import { doInsertionSort } from "../../utility/algorithms/insertionSort.js";
 import { selectionSort } from "../../utility/algorithms/selectionSort.js";
 import { mergeSort } from "../../utility/algorithms/mergeSort.js";
 
@@ -12,6 +12,7 @@ const SortVisualizer = () => {
   // states for our array to sort and the length of the array to sort
   const [length, setLength] = useState(100);
   const [array, setArray] = useState(generateNewArray(length));
+  const [sortedArray, setSortedArray] = useState(array.slice().sort((a, b) => a - b));
 
   // get the reference for our chart
   const chartReference = useRef(null);
@@ -33,12 +34,14 @@ const SortVisualizer = () => {
   // create a new array with the current length
   const handleCreateNewArray = () => {
     setArray(generateNewArray(length));
+    setSortedArray(array.slice().sort((a, b) => a - b));
   };
 
   // creates a new array with a new specified length
   const handleCreateNewArrayWithLength = (length) => {
     setLength(length);
     setArray(generateNewArray(length));
+    setSortedArray(array.slice().sort((a, b) => a - b));
   };
 
   return (
@@ -52,7 +55,7 @@ const SortVisualizer = () => {
         color="success"
         outline
         style={{ marginTop: "1rem" }}
-        onClick={() => bubbleSort(chartReference)}
+        onClick={() => testBubbleSort(chartReference, sortedArray)}
       >
         BUBBLE SORT
       </Button>
@@ -60,7 +63,7 @@ const SortVisualizer = () => {
         color="success"
         outline
         style={{ marginTop: "1rem" }}
-        onClick={() => insertionSort(chartReference)}
+        onClick={() => doInsertionSort(chartReference)}
       >
         INSERTION SORT
       </Button>
@@ -110,13 +113,6 @@ const options = {
   },
   // disables hover mode
   events: [],
-  // animation controller for chart.js
-  // duration is how long each animation plays out in ms
-  animation: {
-    duration: 80,
-    xAxes: true,
-    yAxes: true,
-  },
 };
 
 export default SortVisualizer;
